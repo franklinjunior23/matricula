@@ -2,7 +2,7 @@
     "name": "franxx/matricula",
     "autoload": {
         "psr-4": {
-            "Franxx\\Matricula\\": "src/"
+            "App\\": "src/"
         }
     },
     "authors": [
