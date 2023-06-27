@@ -1,0 +1,15 @@
+{
+    "name": "franxx/matricula",
+    "autoload": {
+        "psr-4": {
+            "Franxx\\Matricula\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Franx Junior",
+            "email": "franklinjunior021118@gmail.com"
+        }
+    ],
+    "require": {}
+}
