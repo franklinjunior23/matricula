@@ -1,23 +1,29 @@
 <?php
+
 namespace App\Config;
+
 use Exception;
 use PDO;
-class Conexion{
-    private $host = 'localhost';
+
+class Conexion
+{
+    private  $host = 'localhost';
     private $user = 'root';
     private $password = 'franklin';
     private $db = 'matricula';
-    private $conect;
-    public function __construct(){
-        $conectionString = "mysql:host=".$this->host.";dbname=".$this->db.";charset=utf8";
+    private $connect;
+    private $conectionString;
+    public function __construct()
+    {
+        $this->conectionString = "mysql:host=" . $this->host . ";dbname=" . $this->db . ";charset=utf8";
         try {
-            $this->conect = new PDO($conectionString,$this->user,$this->password);
-
-        } catch (Exception $e ) {
-            echo "error".$e->getMessage();
+            $this->connect = new PDO($this->conectionString, $this->user, $this->password);
+            
+        } catch (Exception $e) {
+            echo "error" . $e->getMessage();
         }
     }
+    public function getConnect(){
+        return $this->connect;
+    }
 }
-
-
-?>
