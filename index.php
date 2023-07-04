@@ -141,15 +141,20 @@ require_once 'vendor/autoload.php';
 
               </div>
             </div>
-            <div class="border border-black/30 rounded-xl p-4 h-full relative">
+            <div class="border border-black/30 rounded-xl p-10 h-full relative">
               <div class="absolute -top-4 left-5 ">
-                <h2 class="bg-[#D2D6FF] px-3 text-xl font-medium ">Datos importantes</h2>
-
+                <h2 class="bg-[#D2D6FF] px-3 text-xl font-medium ">Cursos Reprobados</h2>
               </div>
-
+              <section class="flex flex-col">
+                <div class="w-full bg-black rounded-md text-white py-2 px-3">
+<div>
+                    <h3>Nombre del curso</h3>
+</div>
+                </div>
+              </section>
             </div>
           </section>
-          <div class=" w-full border p-10">
+          <div class=" w-full border p-10 ">
             <input type="submit" value="Validar">
           </div>
         </aside>
@@ -160,12 +165,19 @@ require_once 'vendor/autoload.php';
 
 
   </div>
+
   <script>
+    const datainput = () => {
+      console.log("buscando ....")
+    }
+
+
     const typeFunct = () => {
       const ContentInput = document.getElementById("content-file-alum");
       const ContentDatepersonal = document.getElementById('content-datePersonal');
       const ContentHide = document.getElementById("content-vacio");
       const typeD = document.getElementById("typedocs").value;
+
       switch (typeD) {
         case "Nuevo":
           ContentInput.innerHTML = `
@@ -252,7 +264,7 @@ require_once 'vendor/autoload.php';
                 <input type="email" name="" class="from-control" id="">
               </div>
               <div class="block">
-                <button type="button" onclick="datainput()" class="bg-black/100 py-2 px-6 text-white rounded-xl font-medium text-right">Buscar Alumno</button>
+                <button type="button" onclick='datainput()' class="bg-black/100 py-2 px-6 text-white rounded-xl font-medium text-right">Buscar Alumno</button>
               </div>
           `
           break
@@ -301,7 +313,6 @@ require_once 'vendor/autoload.php';
       }
     };
   </script>
-  <script src="./js/index.js" type="module"> </script>
 </body>
 
 </html>
