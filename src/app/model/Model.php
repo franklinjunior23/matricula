@@ -1,20 +1,23 @@
 <?php
 
 namespace App\Model;
-use App\Config\Conexion;
+
+use App\Config\Config;
 use PDO;
 
-class Model extends Conexion{
-    private $name;
-    private $connect ;
-    public function __construct($name){
+class Model extends Config{
+    private $req;
+    public function __construct(){
         parent::__construct();
-        $this->connect = new Conexion();
-        $this->name=$name;
     }
     public function GetAll(){
-        $sql = $this->connect->getConnect()->query("SELECT * FROM $this->name");
+        /*
+         
+         $sql = $this->req->query(" SELECT * FROM students ;");
         $result = $sql->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        print_r( $result);
+        */
     }
 }
+
+?>

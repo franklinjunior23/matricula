@@ -2,7 +2,11 @@
 // Cargar el archivo autoload.php generado por Composer
 require_once 'vendor/autoload.php';
 
+use App\Config\Config;
 
+$data = new Config();
+
+$data->getConnect();
 ?>
 <!doctype html>
 <html>
@@ -141,20 +145,28 @@ require_once 'vendor/autoload.php';
 
               </div>
             </div>
-            <div class="border border-black/30 rounded-xl p-10 h-full relative">
+            <div class="border border-black/30 rounded-xl px-10 py-7 h-full relative">
               <div class="absolute -top-4 left-5 ">
                 <h2 class="bg-[#D2D6FF] px-3 text-xl font-medium ">Cursos Reprobados</h2>
               </div>
-              <section class="flex flex-col">
-                <div class="w-full bg-black rounded-md text-white py-2 px-3">
-<div>
-                    <h3>Nombre del curso</h3>
-</div>
+              <section class="flex flex-col gap-4" id="content_repro">
+
+                <div class="w-full bg-black rounded-md text-white py-1 px-3 flex justify-between  items-center">
+                  <aside>
+                    <div class="pl-5 font-semibold ">
+                      <p>- Matematica </p>
+                      <p>Ciclo: II</p>
+                    </div>
+                  </aside>
+                  <aside>
+                    <p>$20.00</p>
+                  </aside>
                 </div>
+
               </section>
             </div>
           </section>
-          <div class=" w-full border p-10 ">
+          <div class=" w-full border border-black/30 rounded-xl p-10 ">
             <input type="submit" value="Validar">
           </div>
         </aside>
@@ -165,6 +177,7 @@ require_once 'vendor/autoload.php';
 
 
   </div>
+
 
   <script>
     const datainput = () => {
