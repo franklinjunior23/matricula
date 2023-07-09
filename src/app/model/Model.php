@@ -5,19 +5,44 @@ namespace App\Model;
 use App\Config\Config;
 use PDO;
 
-class Model extends Config{
-    private $req;
-    public function __construct(){
-        parent::__construct();
+class Model extends Config
+{
+    private $conn;
+    private $db;
+    public function __construct()
+    {
+        $this->conn = new Config();
+        $this->db = $this->conn->getConnect();
     }
-    public function GetAll(){
-        /*
-         
-         $sql = $this->req->query(" SELECT * FROM students ;");
+    protected  function GetAll($table)
+    {
+        $sql = $this->db->query(" SELECT * FROM $table ;");
         $result = $sql->fetchAll(PDO::FETCH_ASSOC);
-        print_r( $result);
-        */
+        return $result;
+    }
+    protected function GetOne($table, $id)
+    {
+        $sql = $this->db->query("SELECT * FROM $table WHERE id = $id");
+        $result = $sql->fetch();
+        return $result;
+    }
+    protected function Create($table, $data)
+    {
+        $columns = implode(',', array_keys($data));
+        $values = implode(',', array_fill(0, count($data), '?'));
+
+        $sql = "INSERT INTO `$table` ($columns) VALUES ($values)";
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute(array_values($data));
+
+        $insertedRows = $stmt->rowCount();
+        return $insertedRows > 0 ? 1 : 0;
+    }
+    protected function DeletOne($table, $id)
+    {
+        $sql = $this->db->query("DELETE FROM `$table` WHERE `$table`.`id` = $id");
+        $result = $sql;
+        return $result;
     }
 }
-
-?>

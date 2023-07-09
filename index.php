@@ -1,12 +1,27 @@
 <?php
+session_start();
+use App\Model\Model;
+use App\Model\Students;
 // Cargar el archivo autoload.php generado por Composer
 require_once 'vendor/autoload.php';
 
-use App\Config\Config;
+$data = new Students();
 
-$data = new Config();
+$dt = $data->Add($cols);
+echo $dt;
 
-$data->getConnect();
+
+
+$databuscar= $_SESSION['data'];
+
+unset($_SESSION['data']);
+echo $databuscar;
+
+
+if($databuscar){
+  echo "<script> var tipo = 'Reactificacion';</script>";
+}
+
 ?>
 <!doctype html>
 <html>
@@ -70,7 +85,7 @@ $data->getConnect();
             <div class="absolute -top-4 left-5">
               <h2 class="bg-[#D2D6FF] px-2 text-xl font-medium	">Datos Personales</h2>
             </div>
-            <form method="post" enctype="multipart/form-data">
+            <form method="POST" enctype="multipart/form-data">
 
 
               <div class="pt-6 grid gap-2" id="content-datePersonal">
@@ -78,7 +93,7 @@ $data->getConnect();
                 <div class="w-full h-full grid place-content-center cursor-none" id="content-vacio">
                   <h2 class="text-center mt-40 p-2 font-semibold	 bg-black text-white">Seleccione el tipo de matricula</h2>
                   <img src="./public/Images/60ff976d13ce3feda2040bb5_Empty_state-p-500-removebg-preview.png" class="w-[300px] " alt="">
-                </div>`
+                </div>
               </div>
               <!-- fin del componente vacio--->
           </div>
@@ -93,40 +108,40 @@ $data->getConnect();
               <div class="h-full p-4 grid">
                 <div>
                   <label for="">Tipo :</label>
-                  <select name="" id="typedocs" onchange="typeFunct()" class="from-control" required>
-                    <option selected>Seleccionar</option>
-                    <option value="Nuevo">Nuevo</option>
-                    <option value="Reactificacion">Reactificacion</option>
-                    <option value="Ingresante">Ingresante</option>
+                  <select name="tipo" id="typedocs" onchange="Notion()" class="from-control" required>
+                    <option  <?php echo $databuscar ? '': 'selected' ?> selected >Seleccionar</option>
+                    <option value="Nuevo" >Nuevo</option>
+                    <option value="Reactificacion" <?php echo $databuscar ? 'selected': '' ?> >Reactificacion</option>
+                    <option value="Ingresante" >Ingresante</option>
                   </select>
                 </div>
                 <div>
                   <label for="">Ciclo</label>
-                  <select name="" id="" class="from-control" required>
+                  <select name="ciclo" id="" class="from-control" required>
                     <option selected>Seleccionar</option>
-                    <option value="">I</option>
-                    <option value="">II</option>
-                    <option value="">III</option>
-                    <option value="">IV</option>
-                    <option value="">V</option>
-                    <option value="">VI</option>
+                    <option value="I">I</option>
+                    <option value="II">II</option>
+                    <option value="III">III</option>
+                    <option value="IV">IV</option>
+                    <option value="V">V</option>
+                    <option value="VI">VI</option>
                   </select>
                 </div>
                 <div>
                   <label for="">Turno</label>
                   <select name="" id="" class="from-control" required>
                     <option selected>Seleccionar</option>
-                    <option value="">Dia</option>
-                    <option value="">Noche</option>
+                    <option value="Dia">Dia</option>
+                    <option value="Noche">Noche</option>
                   </select>
                 </div>
                 <div>
                   <label for="">Carrera</label>
-                  <select name="" id="" class="from-control" required>
+                  <select name="Carrera" id="" class="from-control" required>
                     <option selected>Seleccionar</option>
-                    <option name="" id="" value>Desarrollo De S. Informacion</option>
-                    <option name="" id="">Enfermeria</option>
-                    <option name="" id="">Mecatronica</option>
+                    <option name="DSI" id="" value>Desarrollo De S. Informacion</option>
+                    <option name="ENFER" id="">Enfermeria</option>
+                    <option name="MECATR" id="">Mecatronica</option>
                   </select>
                 </div>
               </div>
@@ -138,9 +153,17 @@ $data->getConnect();
               </div>
               <div class="grid gap-3" id="content-file-alum">
 
-                <div class="w-full grid place-content-center cursor-none" id="content-vacio">
-                  <h2 class="text-center mt-5 p-2 font-semibold	 bg-black text-white">Seleccione el tipo de matricula</h2>
-                  <img src="./public/Images/60ff976d13ce3feda2040bb5_Empty_state-p-500-removebg-preview.png" class="w-[300px] " alt="">
+              <div>
+                  <label for="">Baucher</label>
+                  <input type="file" name="baucher" id="" class="form-file-in" accept=".pdf,.doc,.docx">
+                </div>
+                <div >
+                  <label for="">Boleta de Nota</label>
+                  <input type="file" name="boleta_nota" accept=".pdf,.doc,.docx" id="" class="form-file-in">
+                </div>
+                <div>
+                  <label for="">Acta de Nac</label>
+                  <input type="file" name="acta_nac" id="" accept=".pdf,.doc,.docx" class="form-file-in">
                 </div>
 
               </div>
@@ -167,7 +190,8 @@ $data->getConnect();
             </div>
           </section>
           <div class=" w-full border border-black/30 rounded-xl p-10 ">
-            <input type="submit" value="Validar">
+            <input type="submit" value="Realizar Matricula" name="Realizar" class="bg-orange-400 py-2 px-5">
+            <a href="inicio.php">Ver Boletas</a>
           </div>
         </aside>
         </form>
@@ -183,127 +207,102 @@ $data->getConnect();
     const datainput = () => {
       console.log("buscando ....")
     }
+    
+    const Notion=()=>{
 
-
-    const typeFunct = () => {
       const ContentInput = document.getElementById("content-file-alum");
       const ContentDatepersonal = document.getElementById('content-datePersonal');
       const ContentHide = document.getElementById("content-vacio");
       const typeD = document.getElementById("typedocs").value;
-
       switch (typeD) {
-        case "Nuevo":
-          ContentInput.innerHTML = `
-                <div>
-                  <label for="">Baucher</label>
-                  <input type="file" name="" id="" class="form-file-in">
-                </div>
-                <div >
-                  <label for="">Boleta de Nota</label>
-                  <input type="file" name="" id="" class="form-file-in">
-                </div>
-                <div>
-                  <label for="">Acta de Nac</label>
-                  <input type="file" name="" id="" class="form-file-in">
-                </div>
-          `;
+        case "Nuevo": 
           ContentDatepersonal.innerHTML = `
               <div class="w-full">
                 <label for="">Nombre</label>
-                <input type="text" class="from-control" name="" id="">
+                <input type="text" class="from-control" name="nombre" id="">
               </div>
               <div class="">
                 <label for="">Apellido</label>
-                <input type="text" class="from-control" name="" id="">
+                <input type="text" class="from-control" name="apellido" id="">
               </div>
               <div class="">
                 <label for="">DNI</label>
-                <input type="number" id="dni_val" class="from-control" name="" id="">
+                <input type="number" id="dni_val" class="from-control" name="dni" id="">
               </div>
               <div>
                 <label for="">Correo </label>
-                <input type="email" name="" class="from-control" id="">
+                <input type="email" name="correo" class="from-control" id="">
               </div>
               
               <div class="">
                 <label for="">Genero</label>
-                <select name="" id="" class="from-control">
-                  <option value="" class="p-4">Masculino</option>
-                  <option value="" class="p-4">Femenino</option>
+                <select name="genero" id="" class="from-control">
+                  <option value="0" selected class="p-4">Masculino</option>
+                  <option value="1" class="p-4">Femenino</option>
                 </select>
               </div>
               <div class="">
                 <label for="">Domicilio</label>
-                <input class="from-control" type="text" name="" id="">
+                <input class="from-control" type="text" name="domicilio" id="">
               </div>
               <div>
                 <label for="">Apoderado</label>
-                <input type="text" class="from-control" name="" id="">
+                <input type="text" class="from-control" name="apoderado" id="">
               </div>
               <div>
                 <label for="">DNI</label>
-                <input type="number" class="from-control" name="" id="">
+                <input type="number" class="from-control" name="dni_apod" id="">
               </div>
               <div>
                 <label for="">Quien es?</label>
-                <input type="text" class="from-control" name="" id="">
+                <input type="text" class="from-control" name="apoderado_nom" id="">
               </div>
               <div>
           `;
           break
 
         case "Reactificacion":
-          ContentInput.innerHTML = `
-                <div>
-                  <label for="">Baucher</label>
-                  <input type="file" name="" id="" class="form-file-in">
-                </div>
-          `;
+         
           ContentDatepersonal.innerHTML = `
               <div class="w-full">
                 <label for="">Nombre</label>
-                <input type="text" class="from-control" name="" id="">
+                <input type="text" class="from-control" name="nombre" id="" value="" >
               </div>
               <div class="">
                 <label for="">Apellido</label>
-                <input type="text" class="from-control" name="" id="">
+                <input type="text" class="from-control" name="apellido" id="">
               </div>
               <div class="">
                 <label for="">DNI</label>
-                <input type="number" id="dni_val" class="from-control" name="" id="">
+                <input type="number" id="dni_val" class="from-control" name="dni" id="">
               </div>
               <div>
                 <label for="">Correo </label>
-                <input type="email" name="" class="from-control" id="">
+                <input type="email" name="correo" class="from-control" id="">
               </div>
               <div class="block">
-                <button type="button" onclick='datainput()' class="bg-black/100 py-2 px-6 text-white rounded-xl font-medium text-right">Buscar Alumno</button>
+                <button type="submit" name="buscar" class="bg-black/100 py-2 px-6 text-white rounded-xl font-medium text-right">Buscar Alumno</button>
               </div>
           `
           break
         case "Ingresante":
-          ContentInput.innerHTML = `
-                 <div>
-                  <label for="">Baucher</label>
-                  <input type="file" name="" id="" class="form-file-in">
-                </div>
-          `;
+         
           ContentDatepersonal.innerHTML = `
               <div class="w-full">
                 <label for="">Nombre</label>
-                <input type="text" class="from-control" name="" id="">
+                <input type="text" class="from-control" name="nombre" id="">
               </div>
               <div class="">
                 <label for="">Apellido</label>
-                <input type="text" class="from-control" name="" id="">
+                <input type="text" class="from-control" name="apellido" id="">
               </div>
               <div class="">
                 <label for="">DNI</label>
-                <input type="number" id="dni_val" class="from-control" name="" id="">
+                <input type="number" id="dni_val" class="from-control" name="dni" id="">
               </div>
               <div>
                 <label for="">Correo </label>
-                <input type="email" name="" class="from-control" id="">
+                <input type="email" name="correo" class="from-control" id="">
               </div>
               <div class="block">
                 <button type="button" onclick="datainput()" class="bg-black/100 py-2 px-6 text-white rounded-xl font-medium text-right">Buscar Alumno</button>
@@ -311,12 +310,6 @@ $data->getConnect();
           `;
           break
         default:
-          ContentInput.innerHTML = `
-                <div class="w-full grid place-content-center cursor-none" id="content-vacio">
-                  <h2 class="text-center mt-5 p-2 font-semibold	 bg-black text-white">Seleccione el tipo de matricula</h2>
-                  <img src="./public/Images/60ff976d13ce3feda2040bb5_Empty_state-p-500-removebg-preview.png" class="w-[300px] " alt="">
-                </div>
-            `;
           ContentDatepersonal.innerHTML = `
                <div class="w-full h-full grid place-content-center cursor-none" id="content-vacio">
                   <h2 class="text-center mt-40 p-2 font-semibold	 bg-black text-white">Seleccione el tipo de matricula</h2>
@@ -324,8 +317,33 @@ $data->getConnect();
                 </div>`
           break
       }
-    };
+    }
+    Notion()
   </script>
 </body>
 
 </html>
+<?php 
+
+if(isset($_POST['buscar'])){
+  $dni = $_POST['dni'];
+  echo $dni;
+}
+if(isset($_POST['Realizar'])){
+  $nombre = $_POST['nombre'];
+  $apellido = $_POST['apellido'];
+  $dni = $_POST['dni'];
+  $correo = $_POST['correo'];
+  $genero = $_POST['genero'];
+  $domicilio = $_POST['domicilio'];
+  $apoderado = $_POST['apoderado_nom'];
+  $dni_apoderado = $_POST['dni_apoderado'];
+  $quienEs = $_POST['apoderado_nom'];
+
+  $datos = array(
+    'nombre'=>$nombre,
+    'apellido'=>$apellido,
+  );
+}
+
+?>
