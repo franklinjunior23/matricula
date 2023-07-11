@@ -22,7 +22,7 @@ class Model extends Config
     }
     protected function GetOne($table, $id)
     {
-        $sql = $this->db->query("SELECT * FROM $table WHERE id = $id");
+        $sql = $this->db->query("SELECT * FROM $table WHERE dni = $id");
         $result = $sql->fetch();
         return $result;
     }

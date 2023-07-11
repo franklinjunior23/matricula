@@ -7,20 +7,17 @@ require_once 'vendor/autoload.php';
 
 $data = new Students();
 
-$dt = $data->Add($cols);
-echo $dt;
-
-
-
 $databuscar= $_SESSION['data'];
 
-unset($_SESSION['data']);
+
 echo $databuscar;
 
+print_r($databuscar);
 
-if($databuscar){
-  echo "<script> var tipo = 'Reactificacion';</script>";
-}
+
+
+
+
 
 ?>
 <!doctype html>
@@ -34,6 +31,26 @@ if($databuscar){
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
+<?php if($databuscar){
+  echo "<script>
+  var Existe = true;
+  var Nombre_bd = '{$databuscar['nombre']}';
+  var Apellido_bd = '{$databuscar['apellido']}';
+  var dni_bd = {$databuscar['dni']};
+  var correo_bd = '{$databuscar['correo']}';
+  var tipo = 'Reactificacion';
+  
+  </script>";
+}else{
+  echo $databuscar;
+  echo "<script>
+    var Existe = false 
+    var Nombre_bd = ''
+    var Apellido_bd= ''
+    var dni_bd= ''
+    var correo_bd= ''
+  </script>";
+} ?>
 <style>
   * {
     font-family: 'Open Sans', sans-serif;
@@ -108,7 +125,7 @@ if($databuscar){
               <div class="h-full p-4 grid">
                 <div>
                   <label for="">Tipo :</label>
-                  <select name="tipo" id="typedocs" onchange="Notion()" class="from-control" required>
+                  <select name="tipo" id="typedocs" onchange="Notion()" class="from-control"  required>
                     <option  <?php echo $databuscar ? '': 'selected' ?> selected >Seleccionar</option>
                     <option value="Nuevo" >Nuevo</option>
                     <option value="Reactificacion" <?php echo $databuscar ? 'selected': '' ?> >Reactificacion</option>
@@ -192,6 +209,7 @@ if($databuscar){
           <div class=" w-full border border-black/30 rounded-xl p-10 ">
             <input type="submit" value="Realizar Matricula" name="Realizar" class="bg-orange-400 py-2 px-5">
             <a href="inicio.php">Ver Boletas</a>
+            <a href="index.php""> reiniciar</a>
           </div>
         </aside>
         </form>
@@ -207,13 +225,14 @@ if($databuscar){
     const datainput = () => {
       console.log("buscando ....")
     }
-    
-    const Notion=()=>{
+    var Existe = false;
 
+    const Notion=()=>{
+     
       const ContentInput = document.getElementById("content-file-alum");
       const ContentDatepersonal = document.getElementById('content-datePersonal');
       const ContentHide = document.getElementById("content-vacio");
-      const typeD = document.getElementById("typedocs").value;
+      const typeD = document.getElementById("typedocs").value ;
       switch (typeD) {
         case "Nuevo": 
           ContentDatepersonal.innerHTML = `
@@ -262,26 +281,26 @@ if($databuscar){
           break
 
         case "Reactificacion":
-         
           ContentDatepersonal.innerHTML = `
               <div class="w-full">
                 <label for="">Nombre</label>
-                <input type="text" class="from-control" name="nombre" id="" value="" >
+                <input type="text" class="from-control" name="nombre" id="" value="${Existe= true? Nombre_bd :'' }" >
               </div>
               <div class="">
                 <label for="">Apellido</label>
-                <input type="text" class="from-control" name="apellido" id="">
+                <input type="text" class="from-control" name="apellido" id="" value="${Apellido_bd ? Apellido_bd :''}">
               </div>
               <div class="">
                 <label for="">DNI</label>
-                <input type="number" id="dni_val" class="from-control" name="dni" id="">
+                <input type="number" id="dni_val" class="from-control" name="dni" id="" value="${dni_bd ?dni_bd:''}">
               </div>
               <div>
                 <label for="">Correo </label>
-                <input type="email" name="correo" class="from-control" id="">
+                <input type="email" name="correo" class="from-control" id="" value="${correo_bd?correo_bd:''}">
               </div>
               <div class="block">
                 <button type="submit" name="buscar" class="bg-black/100 py-2 px-6 text-white rounded-xl font-medium text-right">Buscar Alumno</button>
+                <button type="submit" name"borrarbd" >borrar registro</button>
               </div>
           `
           break
@@ -319,17 +338,46 @@ if($databuscar){
       }
     }
     Notion()
+
+    const BuscarTipo= ()=>{
+      if(tipo){
+        const typeD = document.getElementById("typedocs").value ;
+        typeD =tipo;
+      }else{
+        return;
+      }
+    }
+    
+    
   </script>
 </body>
 
 </html>
 <?php 
+if(isset($_POST['borrarbd'])){
 
+}
+if(isset($_POST['reiniciar'])){
+  unset($_SESSION['data']);
+}
 if(isset($_POST['buscar'])){
   $dni = $_POST['dni'];
+  $connModel = new Students();
+  $req = $connModel->GetOne('aa',$dni);
+  if($req){
+    $_SESSION['data']= $req;
+  }else{
+    echo "no existe";
+  }
+  
+
   echo $dni;
+
+
 }
 if(isset($_POST['Realizar'])){
+  $tipo = $_POST['tipo'];
+  echo $tipo;
   $nombre = $_POST['nombre'];
   $apellido = $_POST['apellido'];
   $dni = $_POST['dni'];
@@ -344,6 +392,7 @@ if(isset($_POST['Realizar'])){
     'nombre'=>$nombre,
     'apellido'=>$apellido,
   );
+
 }
 
 ?>
