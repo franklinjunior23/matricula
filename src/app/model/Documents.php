@@ -6,7 +6,6 @@ class Documents extends Model{
     public function __construct(){
         parent::__construct();
     }
+    public function GetAlls(){
+        return $this->GetAll($this->table);}
 }
-
-
-?>

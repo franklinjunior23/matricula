@@ -10,8 +10,9 @@ class Students extends Model{
     public function GetAll($table = null){
         return  parent::getAll($this->table);
     }
-    public function GetOne($table=null, $id){
-        return parent::GetOne($this->table,$id);
+    public function Get($id){
+       return parent::GetOne($this->table,$id);
+       
     }
     public function DeletOne($table=null,$id){
         return parent::DeletOne($this->table,$id);
