@@ -23,6 +23,9 @@ class Students extends Model{
         }
         return $this->Create($this->table,$data);
     }
+    public function UpdateC($data, $condition){
+        return $this->Update($this->table,$data,$condition);
+    }
 }
 
 ?>

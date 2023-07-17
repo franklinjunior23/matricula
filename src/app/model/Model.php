@@ -45,4 +45,20 @@ class Model extends Config
         $result = $sql;
         return $result;
     }
+    protected function Update($table, $data, $condition)
+    {
+        $setValues = [];
+        foreach ($data as $key => $value) {
+            $setValues[] = "$key = ?";
+        }
+        $setClause = implode(',', $setValues);
+
+        $sql = "UPDATE `$table` SET $setClause WHERE $condition";
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute(array_values($data));
+
+        $updatedRows = $stmt->rowCount();
+        return $updatedRows > 0 ? 1 : 0;
+    }
 }

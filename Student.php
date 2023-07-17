@@ -61,31 +61,43 @@ if (isset($_POST['dni'])) {
 
             <div class="input-group">
                 <label for="" class="input-group-text">DNI :</label>
-                <input type="number" class="form-control" name="" id="" value="<?php echo $result['dni'] ?>">
+                <input type="number" class="form-control" name="" readonly  id="" value="<?php echo $result['dni'] ?>">
             </div>
             <div class="input-group">
                 <label for="" class="input-group-text">Correo</label>
-                <input type="email" class="form-control" name="" id="" value="<?php echo $result['correo'] ?>">
+                <input type="email" class="form-control" name="" readonly  id="" value="<?php echo $result['correo'] ?>">
             </div>
             <div class="input-group">
                 <label for="" class="input-group-text">Fecha Nac.</label>
-                <input type="text" class="form-control" name="" id="" value="<?php echo $result['dni'] ?>">
+                <input type="text" class="form-control" name="" readonly  id="" value="<?php echo $result['dni'] ?>">
             </div>
             <div class="input-group">
                 <label for="" class="input-group-text">DNI :</label>
-                <input type="number" class="form-control" name="" id="" value="<?php echo $result['dni'] ?>">
+                <input type="number" class="form-control" name="" readonly  id="" value="<?php echo $result['dni'] ?>">
+            </div>
+            <div class="input-group">
+                <label for="" class="input-group-text">Carrera</label>
+                <input type="text" class="form-control" value="<?php echo $result['carrera'] ?>"  readonly id="">
+            </div>
+            <div class="input-group">
+                <label for="" class="input-group-text">Turno</label>
+                <input type="text" class="form-control" value="<?php echo $result['turno'] ?>" readonly  id="">
+            </div>
+            <div class="input-group">
+                <label for="" class="input-group-text">Ciclo</label>
+                <input type="text" class="form-control" value="<?php echo $result['ciclo'] ?>" readonly  id="">
             </div>
             <form action="Reactificacion.php" method="post" enctype="multipart/form-data">
                 <div>
-                    <input type="number"  name="studentid" value="<?php echo $result['dni'] ?>">
-                    <label for="" class="form-label">Pago del Semestre</label>
+                    <input type="number" hidden name="studentid" value="<?php echo $result['dni'] ?>">
+                    <label for="" class="form-label">Pago del Nuevo Semestre</label>
                     <input type="file" name="pago" class="form-control mb-4" accept=".pdf, image/*" required id="">
                 </div>
 
                 <div class="flex gap-3">
-                    <button oncanplay="REGRESAR()" class="btn btn-dark">Regresar</button>
+                    <button onclick="REGRESAR()" class="btn btn-dark">Regresar</button>
 
-                    <button class="btn btn-primary" type="submit" name="Confirmacion">Confirmar Reactificacion</button>
+                    <input  class="btn btn-primary" type="submit" name="Confirmacion" value="Confirmar Reactificacion" />
                 </div>
             </form>
 

@@ -33,8 +33,6 @@ $resultado = $data->GetAll("a");
     -webkit-appearance: none;
     margin: 0;
   }
-
-
 </style>
 
 <body>
@@ -100,7 +98,21 @@ $resultado = $data->GetAll("a");
                       <label for="" class="input-group-text">Quien es?</label>
                       <input type="text" name="quienes" id="" class="form-control">
                     </div>
-
+                    <div class="input-group">
+                      <label for="" class="input-group-text">Carrera</label>
+                      <select class="form-select" name="carrera" aria-label="Default select example">
+                        <option value="Desarrollo de sistemas de informacion">Desarrollo de sistemas de informacion</option>
+                        <option value="Enfemeria">Enfemeria</option>
+                        <option value="Mecatronica">Mecatronica</option>
+                      </select>
+                    </div>
+                    <div class="input-group">
+                      <label for="" class="input-group-text">Turno</label>
+                      <select class="form-select" name="carrera" aria-label="Default select example">
+                        <option value="Dia">Dia</option>
+                        <option value="Noche">Noche</option>
+                      </select>
+                    </div>
                   </main>
                 </div>
                 <div class="modal-footer">
@@ -160,20 +172,22 @@ $resultado = $data->GetAll("a");
           <tr>
             <th scope="col">Nombre y Apellido</th>
             <th scope="col">Correo</th>
-            <th scope="col">Estado</th>
+            <th scope="col">Ciclo</th>
+            <th scope="col">Carrera</th>
             <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
-          <?php 
-            foreach($resultado as $data){
+          <?php
+          foreach ($resultado as $data) {
           ?>
-          <tr>
-            <td><?php echo $data['nombre']." ".$data['apellido'] ?></td>
-            <td><?php echo $data['correo']?></td>
-            <td><?php echo $data['estado'] ?></td>
-            <td>@mdo</td>
-          </tr>
+            <tr>
+              <td><?php echo $data['nombre'] . " " . $data['apellido'] ?></td>
+              <td><?php echo $data['correo'] ?></td>
+              <td><?php echo $data['ciclo'] ?></td>
+              <td><?php echo $data['carrera'] ?></td>
+              <td><button type="button">Ver</button></td>
+            </tr>
           <?php } ?>
         </tbody>
       </table>
@@ -194,7 +208,7 @@ if (isset($_POST['reiniciar'])) {
 if (isset($_POST['buscar'])) {
   $dni = $_POST['dni'];
   $connModel = new Students();
-  $req = $connModel->Get( $dni);
+  $req = $connModel->Get($dni);
   if ($req) {
     $_SESSION['data'] = $req;
   } else {
