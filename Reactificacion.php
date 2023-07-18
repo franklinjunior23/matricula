@@ -18,9 +18,6 @@ function getNextCiclo($ciclo)
     return $ciclo;
 }
 
-
-
-
 if (!isset($_POST['Confirmacion'])) {
     return InitialPath();
 } else {

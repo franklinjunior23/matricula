@@ -35,7 +35,7 @@ $resultado = $data->GetAll("a");
       <h2 class="text-center mb-5">Listado De Alumnos Matriculados</h2>
       <aside class="mb-4">
         <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Matricula Nuevo</button>
-        <button class="btn btn-dark" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal2">Matricula Ingresante</button>
+       <!-- <button class="btn btn-dark" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal2">Matricula Ingresante</button>--->
         <button class="btn btn-warning type=" button" data-bs-toggle="modal" data-bs-target="#exampleModal3">Matricula Reactificacion</button>
       </aside>
       <!-- modales ///  --->
@@ -194,6 +194,7 @@ $resultado = $data->GetAll("a");
 
 
 <?php
+/*
 if (isset($_POST['borrarbd'])) {
 }
 if (isset($_POST['reiniciar'])) {
@@ -212,6 +213,7 @@ if (isset($_POST['buscar'])) {
 
   echo $dni;
 }
+* */
 if (isset($_POST['Realizar'])) {
   $tipo = $_POST['tipo'];
   echo $tipo;
