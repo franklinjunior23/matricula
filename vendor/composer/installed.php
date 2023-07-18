@@ -1,23 +1,24 @@
-<?php return array(
-    'root' => array(
-        'name' => 'franxx/matricula',
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
-        'reference' => '074ac0f7cb3a94b590173585bf9a397aae9fbf73',
-        'type' => 'library',
-        'install_path' => __DIR__ . '/../../',
-        'aliases' => array(),
-        'dev' => true,
+<?php return array (
+  'root' => 
+  array (
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
+    'aliases' => 
+    array (
     ),
-    'versions' => array(
-        'franxx/matricula' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
-            'reference' => '074ac0f7cb3a94b590173585bf9a397aae9fbf73',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../../',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
+    'reference' => 'd9e0a99875cd472f1562e9b5a02797aa44240675',
+    'name' => 'franxx/matricula',
+  ),
+  'versions' => 
+  array (
+    'franxx/matricula' => 
+    array (
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'd9e0a99875cd472f1562e9b5a02797aa44240675',
     ),
+  ),
 );

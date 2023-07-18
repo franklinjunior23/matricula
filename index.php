@@ -10,12 +10,6 @@ $data = new Students();
 
 $resultado = $data->GetAll("a");
 
-
-
-
-
-
-
 ?>
 
 <!doctype html>
